@@ -1,0 +1,60 @@
+.add-blog-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.add-blog-page h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.add-blog-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.add-blog-page input,
+.add-blog-page textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.add-blog-page textarea {
+  min-height: 150px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.submit-btn,
+.cancel-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.submit-btn:hover,
+.cancel-btn:hover {
+  opacity: 0.8;
+}
