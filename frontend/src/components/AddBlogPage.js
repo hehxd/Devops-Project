@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/AddBlogPage.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+
 function AddBlogPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -19,7 +21,7 @@ function AddBlogPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/blog/add', {
+      const response = await fetch(`${API_BASE_URL}/blog/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

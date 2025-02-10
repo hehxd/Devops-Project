@@ -1,10 +1,29 @@
 const express = require('express')
+const cors = require('cors');
 require('dotenv').config()
 const mongoose = require('mongoose')
 const BlogPost = require('./Models/blogPostModel')
 
 const app = express()
 const port = 3000
+
+const allowedOrigins = ['http://localhost:3001', 'http://frontend'];
+
+
+const corsOptions = {
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+  
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+  };
+  
+app.use(cors(corsOptions));
+app.options('*', cors());
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))

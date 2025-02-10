@@ -2,20 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import '../styles/SingleBlogPage.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+
 function SingleBlogPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [blog, setBlog] = useState(null);
 
   useEffect(() => {
-    fetch(`/blog/${id}`)
+    fetch(`${API_BASE_URL}/blog/${id}`)
       .then((response) => response.json())
       .then((data) => setBlog(data))
       .catch((error) => console.error('Error fetching blog:', error));
   }, [id]);
 
   const handleDelete = () => {
-    fetch(`/blog/${id}/delete`, {
+    fetch(`${API_BASE_URL}/blog/${id}/delete`, {
       method: 'DELETE',
     })
       .then(response => {

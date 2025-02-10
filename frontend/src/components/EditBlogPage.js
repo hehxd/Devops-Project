@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import '../styles/EditBlogPage.css'
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+
 function EditBlogPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ function EditBlogPage() {
   });
 
   useEffect(() => {
-    fetch(`/blog/${id}`)
+    fetch(`${API_BASE_URL}/blog/${id}`)
       .then((response) => response.json())
       .then((data) => setFormData(data))
       .catch((error) => console.error('Error fetching blog:', error));
@@ -26,7 +28,7 @@ function EditBlogPage() {
   };
 
   const handleUpdate = () => {
-    fetch(`/blog/${id}/update`, {
+    fetch(`${API_BASE_URL}/blog/${id}/update`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),

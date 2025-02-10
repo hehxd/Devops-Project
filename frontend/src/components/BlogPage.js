@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-//import './BlogPage.css';
 import '../styles/BlogPage.css'
 
 function BlogPage() {
   const [blogs, setBlogs] = useState([]);
+
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
 
   useEffect(() => {
     fetchBlogs();
@@ -12,14 +13,14 @@ function BlogPage() {
 
 
   const fetchBlogs = () => {
-    fetch('/blogs')
+    fetch(`${API_BASE_URL}/blogs`)
       .then((response) => response.json())
       .then((data) => setBlogs(data))
       .catch((error) => console.error('Error fetching blogs:', error));
   };
 
   const handleDelete = (id) => {
-    fetch(`/blog/${id}/delete`, {
+    fetch(`${API_BASE_URL}/blog/${id}/delete`, {
       method: 'DELETE',
     })
       .then(response => {
