@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kiii-project-config
+  namespace: kiii
+data:
+  FRONTEND_URL: "http://localhost:3001"
+  BACKEND_URL: "http://localhost:3000"
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kiii-project-secrets
+  namespace: kiii
+type: Opaque
+data:
+  MONGO_URL: bW9uZ29kYitzcnY6Ly9uaWtvbGFqa2FuODpkSlE0Q3VObXJTSkQ2Q2pZQGJsb2ctYXBwLmF4aG5sLm1vbmdvZGIubmV0L0Jsb2ctYXBwP3JldHJ5V3JpdGVzPXRydWUmdz1tYWpvcml0eSZhcHBOYW1lPUJsb2ctYXBw
+  MONGO_DB_NAME: QmxvZy1hcHA=
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: kiii
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: kiii-project
+        image: nikyuuu/simple-blog-backend:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MONGO_URL
+          valueFrom:
+            secretKeyRef:
+              name: kiii-project-secrets
+              key: MONGO_URL
+        - name: MONGO_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: kiii-project-secrets
+              key: MONGO_DB_NAME
+        - name: FRONTEND_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kiii-project-config
+              key: FRONTEND_URL
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: kiii
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: kiii-project
+        image: nikyuuu/simple-blog-frontend:latest
+        ports:
+        - containerPort: 3001
+        env:
+        - name: BACKEND_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kiii-project-config
+              key: BACKEND_URL
